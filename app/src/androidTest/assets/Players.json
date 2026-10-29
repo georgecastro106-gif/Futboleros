@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "Kylian Mbappé",
+    "position": "Delantero",
+    "rating": 91.0,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Kylian_Mbapp%C3%A9_2018_%28cropped%29.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Lionel Messi",
+    "position": "Delantero",
+    "rating": 93.0,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel-Messi-Argentina-2022_FIFA_World_Cup_%28cropped%29.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Erling Haaland",
+    "position": "Delantero",
+    "rating": 91.0,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/07/Erling_Haaland_2023_%28cropped%29.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Kevin De Bruyne",
+    "position": "Centrocampista",
+    "rating": 91.0,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Kevin_de_Bruyne_2018.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Jude Bellingham",
+    "position": "Centrocampista",
+    "rating": 90.0,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/62/Jude_Bellingham_2022.jpg"
+  }
+]

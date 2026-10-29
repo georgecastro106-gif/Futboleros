@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Futboleros</string>
+    <string name="hint_username">Nombre de usuario</string>
+    <string name="btn_login">Iniciar sesión</string>
+    <string name="menu_settings">Ajustes</string>
+    <string name="menu_logout">Cerrar sesión</string>
+    <string name="dialog_title">Confirmación</string>
+    <string name="dialog_message">¿Deseas guardar este jugador en tu base de datos local?</string>
+    <string name="btn_accept">Aceptar</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btn_back">Volver</string>
+    <string name="title_detail">Detalles del Jugador</string>
+
+</resources>
