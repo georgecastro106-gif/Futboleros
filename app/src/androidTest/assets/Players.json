@@ -1,37 +1,302 @@
 [
   {
     "id": 1,
-    "name": "Kylian Mbappé",
+    "name": "Erling Haaland",
     "position": "Delantero",
     "rating": 91.0,
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Kylian_Mbapp%C3%A9_2018_%28cropped%29.jpg"
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/erling-haaland.jpg",
+    "country": "Noruega",
+    "age": 23,
+    "club": "Manchester City",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/EH1.jpg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/EH2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/EH3.jpeg"
+    ]
   },
   {
     "id": 2,
     "name": "Lionel Messi",
     "position": "Delantero",
-    "rating": 93.0,
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel-Messi-Argentina-2022_FIFA_World_Cup_%28cropped%29.jpg"
+    "rating": 90.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Messi.jpg",
+    "country": "Argentina",
+    "age": 36,
+    "club": "Inter Miami",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/messi1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/messi2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/messi3.jpeg"
+    ]
   },
   {
     "id": 3,
-    "name": "Erling Haaland",
+    "name": "Cristiano Ronaldo",
     "position": "Delantero",
-    "rating": 91.0,
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/07/Erling_Haaland_2023_%28cropped%29.jpg"
+    "rating": 86.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/CR%3A.jpg.jpg",
+    "country": "Portugal",
+    "age": 39,
+    "club": "Al Nassr",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/CR1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/CR2.jpg.avif",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/CR3.jpeg"
+    ]
   },
   {
     "id": 4,
-    "name": "Kevin De Bruyne",
-    "position": "Centrocampista",
-    "rating": 91.0,
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Kevin_de_Bruyne_2018.jpg"
-  },
-  {
-    "id": 5,
     "name": "Jude Bellingham",
     "position": "Centrocampista",
     "rating": 90.0,
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/62/Jude_Bellingham_2022.jpg"
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Jude.jpg",
+    "country": "Inglaterra",
+    "age": 20,
+    "club": "Real Madrid",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/JUDE1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/JUDE2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/JUDE3.jpeg"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Thibaut Courtois",
+    "position": "Portero",
+    "rating": 90.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Courtois.jpg",
+    "country": "Bélgica",
+    "age": 31,
+    "club": "Real Madrid",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/COUR1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/COUR2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/COUR·.jpeg"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Kylian Mbappé",
+    "position": "Delantero",
+    "rating": 91.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Mbappe.jpg",
+    "country": "Francia",
+    "age": 25,
+    "club": "Real Madrid",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/KM1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/KM2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/KM3.jpeg"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Kevin De Bruyne",
+    "position": "Centrocampista",
+    "rating": 91.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/DeBruyne.jpg",
+    "country": "Bélgica",
+    "age": 32,
+    "club": "Manchester City",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/DE1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/DE2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/DE3.jpeg"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Harry Kane",
+    "position": "Delantero",
+    "rating": 90.0,
+    "photoUrl": "https://github.com/georgecastro106-gif/Futboleros/blob/main/HK%24.jpeg",
+    "country": "Inglaterra",
+    "age": 30,
+    "club": "Bayern Múnich",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/HK1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/HK2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/HK3.jpeg"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Vinicius Jr",
+    "position": "Delantero",
+    "rating": 89.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Vini.jpg",
+    "country": "Brasil",
+    "age": 23,
+    "club": "Real Madrid",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/VINI1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/VINI2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/VINI3.jpeg"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Rodri",
+    "position": "Centrocampista",
+    "rating": 89.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Rodri.jpg",
+    "country": "España",
+    "age": 27,
+    "club": "Manchester City",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/RODRI1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/RODRI2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/RODRi3.avif"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Virgil van Dijk",
+    "position": "Defensa",
+    "rating": 89.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Van%20Djick.jpg",
+    "country": "Países Bajos",
+    "age": 32,
+    "club": "Liverpool",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/DIk1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/DIK2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/DIK3.jpeg"
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Mohamed Salah",
+    "position": "Delantero",
+    "rating": 89.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Salah.jpg",
+    "country": "Egipto",
+    "age": 31,
+    "club": "Liverpool",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/Salah.jpg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/Sala1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/Salah2.jpeg"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Marc-André ter Stegen",
+    "position": "Portero",
+    "rating": 89.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/images-6.jpeg",
+    "country": "Alemania",
+    "age": 31,
+    "club": "FC Barcelona",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/TER1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/TER2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/TER3.jpeg"
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Antoine Griezmann",
+    "position": "Delantero",
+    "rating": 88.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Griezman.jpg",
+    "country": "Francia",
+    "age": 32,
+    "club": "Atlético de Madrid",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/GR.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/GR1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/GR23.jpeg"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Federico Valverde",
+    "position": "Centrocampista",
+    "rating": 88.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Valverde.jpeg",
+    "country": "Uruguay",
+    "age": 25,
+    "club": "Real Madrid",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/Val1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/Val2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/Val3.jpeg"
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Luka Modric",
+    "position": "Centrocampista",
+    "rating": 87.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Modric.jpeg",
+    "country": "Croacia",
+    "age": 38,
+    "club": "Real Madrid",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/LM1jpeg.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/LM2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/LM3.jpeg"
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Lautaro Martinez",
+    "position": "Delantero",
+    "rating": 87.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Lautaro.jpg",
+    "country": "Argentina",
+    "age": 26,
+    "club": "Inter de Milán",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/Lau1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/Lau2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/Lau3.jpeg"
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Pedri",
+    "position": "Centrocampista",
+    "rating": 86.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Pedri.jpeg",
+    "country": "España",
+    "age": 21,
+    "club": "FC Barcelona",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/Pedri1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/Pedri2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/Pedri3.jpeg"
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Achraf Hakimi",
+    "position": "Defensa",
+    "rating": 84.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Hakim.jpg",
+    "country": "Marruecos",
+    "age": 25,
+    "club": "PSG",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/AH1jpeg.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/AH2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/AH3.jpeg"
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Lamine Yamal",
+    "position": "Delantero",
+    "rating": 91.0,
+    "photoUrl": "https://raw.githubusercontent.com/georgecastro106-gif/Futboleros/main/Lamine.jpg",
+    "country": "España",
+    "age": 16,
+    "club": "FC Barcelona",
+    "screenshots": [
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/LY1.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/LY2.jpeg",
+      "https://github.com/georgecastro106-gif/Futboleros/blob/main/iLY3.jpeg"
+    ]
   }
 ]

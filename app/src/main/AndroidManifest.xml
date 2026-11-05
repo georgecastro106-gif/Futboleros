@@ -16,15 +16,20 @@
         android:theme="@style/Theme.Futboleros"
         tools:targetApi="31">
 
-        <!-- LoginActivity como pantalla inicial (LAUNCHER) -->
+        <!-- Pantalla de portada (SplashActivity) como pantalla inicial -->
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- LoginActivity -->
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="false" />
 
         <!-- MainActivity (Segunda actividad) -->
         <activity
@@ -35,6 +40,11 @@
         <activity
             android:name=".activities.DetailActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.MainActivity" />
 
     </application>
 

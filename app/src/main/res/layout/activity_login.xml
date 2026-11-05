@@ -4,30 +4,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     android:padding="24dp">
 
-    <!--TextField de Material Design -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_username"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginBottom="16dp">
+    <!-- Botón de retroceso (Volver) superior -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Volver a la portada"
+        android:src="?attr/homeAsUpIndicator"
+        app:tint="?attr/colorOnSurface"
+        android:layout_marginBottom="16dp" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUsername"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- TextField de Material Design -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"/>
+            android:hint="@string/hint_username"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginBottom="16dp">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"/>
 
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_login" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_login" />
+
+        <Button
+            android:id="@+id/btnBackToSplash"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Volver a la portada" />
+
+    </LinearLayout>
 
 </LinearLayout>

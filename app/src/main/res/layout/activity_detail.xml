@@ -1,102 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <!-- 1. Barra superior (Toolbar) -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:gravity="center_horizontal">
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivDetailPhoto"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:scaleType="centerCrop"
-            android:layout_marginBottom="16dp"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <TextView
-            android:id="@+id/tvDetailName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="?attr/colorOnSurface"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/tvDetailRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rating_bg"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
-            android:layout_marginBottom="16dp" />
-
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            app:cardCornerRadius="16dp">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-            <LinearLayout
+            <!-- Foto principal del jugador -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivDetailPhoto"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_marginBottom="16dp"
+                android:scaleType="fitCenter" />
+
+            <!-- Nombre del jugador -->
+            <TextView
+                android:id="@+id/tvDetailName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="Cristiano Ronaldo" />
+
+            <!-- Valoración (Rating) -->
+            <TextView
+                android:id="@+id/tvDetailRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/rating_bg"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- Tarjeta con los datos detallados -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="16dp">
 
-                <TextView
-                    android:id="@+id/tvDetailPosition"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="8dp" />
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/tvDetailCountry"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="8dp" />
+                    <TextView
+                        android:id="@+id/tvDetailPosition"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tvDetailAge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="8dp" />
+                    <TextView
+                        android:id="@+id/tvDetailCountry"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tvDetailClub"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/tvDetailAge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:textSize="16sp" />
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvDetailClub"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp" />
 
-        </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_accept" />
+            <!-- Título de la sección de capturas -->
+            <TextView
+                android:id="@+id/tvScreenshotsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp" />
 
-        <Button
-            android:id="@+id/btnBack"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/btn_back" />
+            <!-- RecyclerView horizontal de Screenshots -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerScreenshots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_screenshot" />
 
-    </LinearLayout>
+            <!-- Botones de acción -->
+            <Button
+                android:id="@+id/btnAccept"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Aceptar" />
 
-</ScrollView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShare"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Compartir Jugador"
+                app:icon="@android:drawable/ic_menu_share" />
+
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Volver" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

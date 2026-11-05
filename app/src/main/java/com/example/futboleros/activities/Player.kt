@@ -10,5 +10,7 @@ data class Player(
     val photoUrl: String,
     val country: String = "Desconocido",
     val age: Int = 0,
-    val club: String = "Sin equipo"
-) : Serializable
+    val club: String = "Sin equipo",
+    val screenshots: List<String> = emptyList(),
+) : java.io.Serializable
+

@@ -2,6 +2,7 @@ package com.example.futboleros.utils
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.example.futboleros.R
@@ -14,18 +15,28 @@ object ImageUtils {
             return
         }
 
-        val glideUrl = GlideUrl(
-            url,
-            LazyHeaders.Builder()
-                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-                .addHeader("Accept", "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8")
-                .build()
-        )
+        // Convertir automáticamente URLs de vista previa de GitHub (/blob/) a imágenes raw
+        val formattedUrl = if (url.contains("github.com") && url.contains("/blob/")) {
+            url.replace("github.com", "raw.githubusercontent.com")
+                .replace("/blob/", "/")
+        } else {
+            url
+        }
+
+        val headers = LazyHeaders.Builder()
+            .addHeader("User-Agent", "FutbolerosApp/1.0 (AndroidEducationalApp; contacto@futboleros.com)")
+            .addHeader("Referer", "https://commons.wikimedia.org")
+            .addHeader("Accept", "image/webp,image/apng,image/*,*/*;q=0.8")
+            .build()
+
+        val glideUrl = GlideUrl(formattedUrl, headers)
 
         Glide.with(imageView.context)
             .load(glideUrl)
-            .placeholder(R.drawable.ic_launcher_background)
-            .error(R.drawable.ic_launcher_background)
+            .skipMemoryCache(false)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .placeholder(R.drawable.ic_launcher_foreground)
+            .error(R.drawable.ic_launcher_foreground)
             .into(imageView)
     }
 }

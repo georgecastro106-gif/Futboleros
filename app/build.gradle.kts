@@ -56,6 +56,7 @@ dependencies {
     // Material Design
     implementation("com.google.android.material:material:1.9.0")
 
+    implementation("io.coil-kt:coil:2.6.0")
     // Librerías del catálogo (libs)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.appcompat)

@@ -19,7 +19,7 @@
             android:id="@+id/ivPlayerPhoto"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:layout_marginEnd="12dp"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
 

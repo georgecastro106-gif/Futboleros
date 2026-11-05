@@ -1,238 +1,243 @@
 package com.example.futboleros.activities
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.edit
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.futboleros.BuildConfig
 import com.example.futboleros.R
 import com.example.futboleros.adapters.PlayerAdapter
+import com.example.futboleros.data.PlayerDataSource
 import com.example.futboleros.databinding.ActivityMainBinding
-import com.example.futboleros.utils.ApiFootballResponse
-import com.example.futboleros.utils.FootballApiService
-import com.example.futboleros.utils.FootballRepository
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
-    private lateinit var sharedPreferences: SharedPreferences
-
-    private lateinit var playerAdapter: PlayerAdapter
-
+    private lateinit var adapter: PlayerAdapter
     private var fullPlayerList: List<Player> = emptyList()
-    private var currentQuery: String = ""
-    private var selectedPositionFilter: String = "Todos"
-    private var selectedCountryFilter: String = "Todos los países"
-    private var selectedSortOption: String = "Mayor valoración"
+
+    private var currentPositionFilter: String = ""
+    private var currentCountryFilter: String = "Todos los países"
+    private var currentSortOption: String = "Mayor valoración"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sharedPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE)
+        // Listener para los Chips de posición
+        binding.chipGroupPosition.setOnCheckedChangeListener { _, checkedId ->
+            currentPositionFilter = when (checkedId) {
+                R.id.chipForward -> "Delantero"
+                R.id.chipMidfielder -> "Centrocampista"
+                R.id.chipDefender -> "Defensa"
+                R.id.chipGoalkeeper -> "Portero"
+                else -> "" // "Todos"
+            }
+            applyFiltersAndSort()
+        }
+
+        // Configurar los Spinners de País y Ordenación
+        val countries = arrayOf(
+            "Todos los países",
+            "Argentina",
+            "Portugal",
+            "Inglaterra",
+            "Bélgica",
+            "Francia",
+            "España",
+            "Brasil",
+            "Países Bajos",
+            "Egipto",
+            "Alemania",
+            "Uruguay",
+            "Croacia",
+            "Marruecos"
+        )
+        val countryAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            countries
+        )
+        binding.spinnerCountry.adapter = countryAdapter
+
+        binding.spinnerCountry.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                currentCountryFilter = countries[position]
+                applyFiltersAndSort()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        val sortOptions = arrayOf("Mayor valoración", "Menor valoración", "Nombre (A-Z)")
+        val sortAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            sortOptions
+        )
+        binding.spinnerSort.adapter = sortAdapter
+
+        binding.spinnerSort.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                currentSortOption = sortOptions[position]
+                applyFiltersAndSort()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        // Configurar la Toolbar
+        setSupportActionBar(binding.toolbar)
+
+        // Configurar el LayoutManager del RecyclerView
         binding.recyclerViewPlayers.layoutManager = LinearLayoutManager(this)
 
-        setupFilterListeners()
+        // Cargar los jugadores con su información completa y correcta
         fetchPlayers()
     }
 
-    private fun fetchPlayers() {
-        // Intentar obtener datos de la API de Football o utilizar el dataset oficial FIFA
-        val apiKey = try {
-            val field = BuildConfig::class.java.getField("FOOTBALL_API_KEY")
-            field.get(null) as? String ?: ""
-        } catch (_: Exception) {
-            ""
-        }
-
-        if (apiKey.isNotEmpty()) {
-            val retrofit = Retrofit.Builder()
-                .baseUrl("https://v3.api-football.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-            val service = retrofit.create(FootballApiService::class.java)
-            // Real Madrid id=541 temporada 2023 como ejemplo
-            service.getPlayersByTeam(541, 2023, apiKey).enqueue(object : Callback<ApiFootballResponse> {
-                override fun onResponse(call: Call<ApiFootballResponse>, response: Response<ApiFootballResponse>) {
-                    val dtos = response.body()?.response
-                    if (!dtos.isNullOrEmpty()) {
-                        val apiPlayers = dtos.mapNotNull { FootballRepository.mapDtoToPlayer(it) }
-                        if (apiPlayers.isNotEmpty()) {
-                            onPlayersLoaded(apiPlayers)
-                            return
-                        }
-                    }
-                    onPlayersLoaded(FootballRepository.getOfficialFifaPlayers())
-                }
-
-                override fun onFailure(call: Call<ApiFootballResponse>, t: Throwable) {
-                    onPlayersLoaded(FootballRepository.getOfficialFifaPlayers())
-                }
-            })
-        } else {
-            // Cargar dataset oficial completo de jugadores FIFA
-            onPlayersLoaded(FootballRepository.getOfficialFifaPlayers())
-        }
-    }
-
-    private fun onPlayersLoaded(players: List<Player>) {
-        fullPlayerList = players
-
-        // Configurar Spinner de Países dinámicamente
-        val countries = mutableListOf("Todos los países")
-        countries.addAll(players.map { it.country }.filter { it.isNotBlank() && it != "Desconocido" }.distinct().sorted())
-        val countryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, countries)
-        countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerCountry.adapter = countryAdapter
-
-        // Configurar Spinner de Ordenación
-        val sortOptions = listOf(
-            "Mayor valoración",
-            "Menor edad",
-            "Mayor edad",
-            "Nombre A-Z",
-            "País"
-        )
-        val sortAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, sortOptions)
-        sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerSort.adapter = sortAdapter
-
-        // Inicializar el adaptador del RecyclerView
-        playerAdapter = PlayerAdapter(emptyList()) { selectedPlayer ->
-            val intent = Intent(this@MainActivity, DetailActivity::class.java).apply {
-                putExtra("EXTRA_PLAYER", selectedPlayer)
-            }
-            startActivity(intent)
-        }
-        binding.recyclerViewPlayers.adapter = playerAdapter
-
-        applyFiltersAndSorting()
-    }
-
-    private fun setupFilterListeners() {
-        // Listener para Chips de Posición
-        binding.chipGroupPosition.setOnCheckedStateChangeListener { _, checkedIds ->
-            selectedPositionFilter = when {
-                checkedIds.contains(R.id.chipForward) -> "Delantero"
-                checkedIds.contains(R.id.chipMidfielder) -> "Centrocampista"
-                checkedIds.contains(R.id.chipDefender) -> "Defensa"
-                checkedIds.contains(R.id.chipGoalkeeper) -> "Portero"
-                else -> "Todos"
-            }
-            applyFiltersAndSorting()
-        }
-
-        // Listener para Spinner de País
-        binding.spinnerCountry.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                selectedCountryFilter = parent?.getItemAtPosition(position).toString()
-                applyFiltersAndSorting()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-
-        // Listener para Spinner de Ordenación
-        binding.spinnerSort.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                selectedSortOption = parent?.getItemAtPosition(position).toString()
-                applyFiltersAndSorting()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-    }
-
-    private fun applyFiltersAndSorting() {
-        if (!::playerAdapter.isInitialized) return
-
-        var list = fullPlayerList.toList()
-
-        // 1. Filtrar por Búsqueda (nombre, posición, país, club)
-        if (currentQuery.isNotEmpty()) {
-            list = list.filter { player ->
-                player.name.contains(currentQuery, ignoreCase = true) ||
-                        player.position.contains(currentQuery, ignoreCase = true) ||
-                        player.country.contains(currentQuery, ignoreCase = true) ||
-                        player.club.contains(currentQuery, ignoreCase = true)
-            }
-        }
-
-        // 2. Filtrar por Posición
-        if (selectedPositionFilter != "Todos") {
-            list = list.filter { player ->
-                player.position.equals(selectedPositionFilter, ignoreCase = true) ||
-                        (selectedPositionFilter == "Delantero" && player.position.contains("Delantero", ignoreCase = true)) ||
-                        (selectedPositionFilter == "Centrocampista" && player.position.contains("Centrocampista", ignoreCase = true)) ||
-                        (selectedPositionFilter == "Defensa" && player.position.contains("Defensa", ignoreCase = true)) ||
-                        (selectedPositionFilter == "Portero" && player.position.contains("Portero", ignoreCase = true))
-            }
-        }
-
-        // 3. Filtrar por País
-        if (selectedCountryFilter != "Todos los países") {
-            list = list.filter { player ->
-                player.country.equals(selectedCountryFilter, ignoreCase = true)
-            }
-        }
-
-        // 4. Ordenación
-        list = when (selectedSortOption) {
-            "Mayor valoración" -> list.sortedByDescending { it.rating }
-            "Menor edad" -> list.sortedBy { if (it.age > 0) it.age else 99 }
-            "Mayor edad" -> list.sortedByDescending { it.age }
-            "Nombre A-Z" -> list.sortedBy { it.name }
-            "País" -> list.sortedBy { it.country }
-            else -> list.sortedByDescending { it.rating }
-        }
-
-        playerAdapter.updateList(list)
-    }
-
-    // Menú en la AppBar
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // 1. Inflar tu menú XML actual
         menuInflater.inflate(R.menu.main_menu, menu)
 
+        // 2. Encontrar el ítem de búsqueda y extraer el SearchView
         val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as? SearchView
 
+        searchView?.queryHint = "Buscar jugador..."
+
+        // 3. Configurar el listener para escuchar lo que escribe el usuario en tiempo real
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
+                return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                currentQuery = newText.orEmpty().trim()
-                applyFiltersAndSorting()
+                val query = newText.orEmpty().lowercase()
+
+                // Filtra sobre la lista completa de jugadores por nombre, club, posición o país
+                val filteredList = fullPlayerList.filter { player ->
+                    player.name.lowercase().contains(query) ||
+                            player.club.lowercase().contains(query) ||
+                            player.position.lowercase().contains(query) ||
+                            player.country.lowercase().contains(query)
+                }
+
+                // Actualiza el adaptador
+                if (::adapter.isInitialized) {
+                    adapter.filterList(filteredList)
+                }
                 return true
             }
         })
+
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_logout -> {
-                sharedPreferences.edit { clear() }
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
+            R.id.action_share -> {
+                shareAppOrPlayers()
                 true
             }
+
+            R.id.action_settings -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun shareAppOrPlayers() {
+        val topPlayer = fullPlayerList.maxByOrNull { it.rating }
+        val shareText = buildString {
+            append("⚽ ¡Descubre la app Futboleros y su ranking de futbolistas!\n\n")
+            if (topPlayer != null) {
+                append("🏆 Jugador destacado: ${topPlayer.name} (Media ${topPlayer.rating})\n")
+                append("🛡️ Club: ${topPlayer.club} | ${topPlayer.position}\n\n")
+            }
+            append("📊 Explora las fichas, estadísticas y fotos de los mejores jugadores del mundo.\n\n")
+            append("🔗 Ver más en: https://github.com/georgecastro106-gif/Futboleros")
+        }
+
+        try {
+            val sendIntent = Intent(Intent.ACTION_SEND).apply {
+                putExtra(Intent.EXTRA_SUBJECT, "Futboleros - Clasificación de Futbolistas")
+                putExtra(Intent.EXTRA_TEXT, shareText)
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, "Compartir Futboleros con:")
+            startActivity(shareIntent)
+        } catch (_: Exception) {
+            Toast.makeText(this, "No se pudo abrir la opción de compartir", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun fetchPlayers() {
+        fullPlayerList = PlayerDataSource.players.sortedBy { it.name }
+
+        adapter = PlayerAdapter(fullPlayerList) { player ->
+            val intent = Intent(this, DetailActivity::class.java).apply {
+                putExtra("EXTRA_PLAYER", player)
+            }
+            startActivity(intent)
+        }
+
+        binding.recyclerViewPlayers.adapter = adapter
+    }
+
+    private fun filterByPosition(positionName: String) {
+        val filteredList = if (positionName.isEmpty()) {
+            fullPlayerList
+        } else {
+            fullPlayerList.filter { player ->
+                player.position.equals(positionName, ignoreCase = true)
+            }
+        }
+        if (::adapter.isInitialized) {
+            adapter.filterList(filteredList)
+        }
+    }
+
+    private fun applyFiltersAndSort() {
+        var filteredList = fullPlayerList
+
+        // 1. Filtrar por posición
+        if (currentPositionFilter.isNotEmpty()) {
+            filteredList = filteredList.filter {
+                it.position.equals(currentPositionFilter, ignoreCase = true)
+            }
+        }
+
+        // 2. Filtrar por país
+        if (currentCountryFilter != "Todos los países") {
+            filteredList = filteredList.filter {
+                it.country.equals(currentCountryFilter, ignoreCase = true)
+            }
+        }
+
+        // 3. Ordenar
+        filteredList = when (currentSortOption) {
+            "Mayor valoración" -> filteredList.sortedByDescending { it.rating }
+            "Menor valoración" -> filteredList.sortedBy { it.rating }
+            "Nombre (A-Z)" -> filteredList.sortedBy { it.name }
+            else -> filteredList
+        }
+
+        // 4. Actualizar el adaptador
+        if (::adapter.isInitialized) {
+            adapter.filterList(filteredList)
         }
     }
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ajustes de la Aplicación"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- Opción 1: Modo Oscuro -->
+    <Switch
+        android:id="@+id/switchDarkMode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Activar Modo Oscuro"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Opción 2: Acerca de -->
+    <TextView
+        android:id="@+id/tvAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Acerca de Futboleros v1.0"
+        android:textSize="16sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingVertical="8dp"/>
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Volver al inicio"
+        android:layout_marginTop="24dp"/>
+
+</LinearLayout>
