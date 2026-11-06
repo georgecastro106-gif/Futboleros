@@ -13,12 +13,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.futboleros.R
 import com.example.futboleros.adapters.ScreenshotAdapter
+import com.example.futboleros.data.AppDatabase
 import com.example.futboleros.data.DatabaseHelper
 import com.example.futboleros.databinding.ActivityDetailBinding
 import com.example.futboleros.utils.ImageUtils
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 class DetailActivity : AppCompatActivity() {
@@ -93,9 +96,9 @@ class DetailActivity : AppCompatActivity() {
             sharePlayerInfo()
         }
 
-        // 7. Botones de acción (Aceptar / Guardar y Volver)
-        binding.btnAccept.setOnClickListener {
-            showConfirmationDialog(name, position, rating)
+        // 7. Botones de acción (Guardar y Volver)
+        binding.btnSave.setOnClickListener {
+            showConfirmationDialog()
         }
 
         // Botón de volver específico si existe
@@ -184,20 +187,41 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun showConfirmationDialog(name: String, position: String, rating: Double) {
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.dialog_title))
-            .setMessage(getString(R.string.dialog_message))
-            .setPositiveButton(getString(R.string.btn_accept)) { _, _ ->
-                dbHelper.addFavorite(name, position, rating)
-                finish()
+    private fun showConfirmationDialog() {
+        val player = currentPlayer ?: return
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Confirmación")
+        builder.setMessage("¿Deseas guardar este jugador en tu base de datos local?")
+
+        // Botón GUARDAR del diálogo
+        builder.setPositiveButton("Guardar") { dialog, _ ->
+            // Instanciar la base de datos de Room
+            val database = AppDatabase.getDatabase(this)
+
+            // Ejecutar la inserción usando una corrutina en el ciclo de vida de la actividad
+            lifecycleScope.launch {
+                database.playerDao().insertPlayer(player)
+
+                Toast.makeText(
+                    this@DetailActivity,
+                    "${player.name} guardado correctamente",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-            .setNegativeButton(getString(R.string.btn_cancel), null)
-            .show()
+
+            dialog.dismiss()
+        }
+
+        // Botón CANCELAR del diálogo
+        builder.setNegativeButton("Cancelar") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        builder.create().show()
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        finish() // Cierra la actividad actual y regresa al MainActivity
+        finish()
         return true
     }
 }

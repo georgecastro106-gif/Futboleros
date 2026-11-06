@@ -1,9 +1,13 @@
 package com.example.futboleros.activities
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.io.Serializable
 
+@Entity(tableName = "players_table")
 data class Player(
-    val id: Int,
+    @field:PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val name: String,
     val position: String,
     val rating: Double,
@@ -12,5 +16,5 @@ data class Player(
     val age: Int = 0,
     val club: String = "Sin equipo",
     val screenshots: List<String> = emptyList(),
-) : java.io.Serializable
+) : Serializable
 

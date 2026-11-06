@@ -16,6 +16,12 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_saved_players"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="Jugadores Guardados"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_settings"
         android:icon="@android:drawable/ic_menu_manage"
         android:title="Opciones"

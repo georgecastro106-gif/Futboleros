@@ -123,11 +123,11 @@
 
             <!-- Botones de acción -->
             <Button
-                android:id="@+id/btnAccept"
+                android:id="@+id/btnSave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Aceptar" />
+                android:text="@string/btn_save" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnShare"

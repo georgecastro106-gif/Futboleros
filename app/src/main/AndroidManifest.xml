@@ -46,6 +46,11 @@
             android:exported="false"
             android:parentActivityName=".activities.MainActivity" />
 
+        <activity
+            android:name=".activities.SavedPlayersActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.MainActivity" />
+
     </application>
 
 </manifest>

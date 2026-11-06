@@ -7,6 +7,7 @@
     <string name="dialog_title">Confirmación</string>
     <string name="dialog_message">¿Deseas guardar este jugador en tu base de datos local?</string>
     <string name="btn_accept">Aceptar</string>
+    <string name="btn_save">Guardar</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="btn_back">Volver</string>
     <string name="title_detail">Detalles del Jugador</string>

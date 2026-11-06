@@ -15,9 +15,7 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnBack.setOnClickListener {
-            finish() // Cierra la actividad de ajustes y vuelve a la pantalla principal
-        }
+        setSupportActionBar(binding.toolbar)
 
         // Título en la barra superior
         supportActionBar?.title = "Ajustes"

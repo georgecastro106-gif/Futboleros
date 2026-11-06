@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.Query
 
 data class ApiFootballResponse(
@@ -40,16 +41,17 @@ data class GamesDto(
 
 interface FootballApiService {
 
-    @GET("v3/players")
+    @GET("players")
     fun getPlayersByTeam(
         @Query("team") teamId: Int,
         @Query("season") season: Int = 2023,
         @Header("x-apisports-key") apiKey: String
     ): Call<ApiFootballResponse>
 
-    @GET("v3/players")
+    @GET("players")
     fun searchPlayers(
         @Query("search") searchName: String,
+        @Query("league") season: Int = 61,
         @Header("x-apisports-key") apiKey: String
     ): Call<ApiFootballResponse>
 

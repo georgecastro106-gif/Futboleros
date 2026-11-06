@@ -1,5 +1,4 @@
 package com.example.futboleros.activities
-
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -15,6 +14,8 @@ import com.example.futboleros.R
 import com.example.futboleros.adapters.PlayerAdapter
 import com.example.futboleros.data.PlayerDataSource
 import com.example.futboleros.databinding.ActivityMainBinding
+import com.example.futboleros.utils.RetrofitClient
+import com.example.futboleros.utils.ApiFootballResponse
 
 class MainActivity : AppCompatActivity() {
 
@@ -96,24 +97,31 @@ class MainActivity : AppCompatActivity() {
         // Configurar la Toolbar
         setSupportActionBar(binding.toolbar)
 
+        // Habilitar el botón de retroceso (flecha hacia atrás)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.title = "Futboleros"
+
         // Configurar el LayoutManager del RecyclerView
         binding.recyclerViewPlayers.layoutManager = LinearLayoutManager(this)
 
-        // Cargar los jugadores con su información completa y correcta
+        // Cargar los jugadores desde la API (con fallback al JSON local)
         fetchPlayers()
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // 1. Inflar tu menú XML actual
         menuInflater.inflate(R.menu.main_menu, menu)
 
-        // 2. Encontrar el ítem de búsqueda y extraer el SearchView
         val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as? SearchView
 
         searchView?.queryHint = "Buscar jugador..."
 
-        // 3. Configurar el listener para escuchar lo que escribe el usuario en tiempo real
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -122,7 +130,6 @@ class MainActivity : AppCompatActivity() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 val query = newText.orEmpty().lowercase()
 
-                // Filtra sobre la lista completa de jugadores por nombre, club, posición o país
                 val filteredList = fullPlayerList.filter { player ->
                     player.name.lowercase().contains(query) ||
                             player.club.lowercase().contains(query) ||
@@ -130,7 +137,6 @@ class MainActivity : AppCompatActivity() {
                             player.country.lowercase().contains(query)
                 }
 
-                // Actualiza el adaptador
                 if (::adapter.isInitialized) {
                     adapter.filterList(filteredList)
                 }
@@ -150,6 +156,12 @@ class MainActivity : AppCompatActivity() {
 
             R.id.action_settings -> {
                 val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+                true
+            }
+
+            R.id.action_saved_players -> {
+                val intent = Intent(this, SavedPlayersActivity::class.java)
                 startActivity(intent)
                 true
             }
@@ -185,16 +197,68 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchPlayers() {
+        // 1. CARGA INMEDIATA DE SEGURIDAD: Mostramos tus datos locales (JSON/GitHub) al instante
+        // para que la interfaz nunca se quede vacía ni dependa de que el servidor responda.
         fullPlayerList = PlayerDataSource.players.sortedBy { it.name }
 
         adapter = PlayerAdapter(fullPlayerList) { player ->
-            val intent = Intent(this, DetailActivity::class.java).apply {
+            val intent = Intent(this@MainActivity, DetailActivity::class.java).apply {
                 putExtra("EXTRA_PLAYER", player)
             }
             startActivity(intent)
         }
 
         binding.recyclerViewPlayers.adapter = adapter
+        applyFiltersAndSort()
+
+        // 2. INTENTO OPCIONAL DE LA API: En segundo plano intentamos conectar con la API.
+        // Si la API responde correctamente en algún momento, actualizará la lista de forma dinámica.
+        val apiKey = "e991c381ddeaa988abc587e7828c8ac1"
+
+        RetrofitClient.apiService.searchPlayers(searchName = "a", apiKey = apiKey)
+            .enqueue(object : retrofit2.Callback<ApiFootballResponse> {
+                override fun onResponse(
+                    call: retrofit2.Call<ApiFootballResponse>,
+                    response: retrofit2.Response<ApiFootballResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val apiResponse = response.body()
+                        val playerItems = apiResponse?.response
+
+                        val apiPlayerList = playerItems?.mapNotNull { item ->
+                            val p = item.player
+                            val stat = item.statistics?.firstOrNull()
+
+                            if (p != null) {
+                                Player(
+                                    name = p.name ?: "Desconocido",
+                                    position = stat?.games?.position ?: "N/A",
+                                    country = p.nationality ?: "Desconocido",
+                                    age = p.age ?: 0,
+                                    club = stat?.team?.name ?: "Sin equipo",
+                                    rating = stat?.games?.rating?.toDoubleOrNull() ?: 0.0,
+                                    photoUrl = p.photo ?: ""
+                                )
+                            } else null
+                        } ?: emptyList()
+
+                        // Si la API devuelve datos con éxito, actualizamos el adaptador en caliente
+                        if (apiPlayerList.isNotEmpty()) {
+                            fullPlayerList = apiPlayerList.sortedBy { it.name }
+                            runOnUiThread {
+                                if (::adapter.isInitialized) {
+                                    applyFiltersAndSort()
+                                }
+                            }
+                        }
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<ApiFootballResponse>, t: Throwable) {
+                    // Si falla la red, no hacemos nada disruptivo; la app se queda con los datos locales tranquilamente.
+                    android.util.Log.d("API_FALLBACK", "Usando datos locales por fallo de red: ${t.message}")
+                }
+            })
     }
 
     private fun filterByPosition(positionName: String) {
